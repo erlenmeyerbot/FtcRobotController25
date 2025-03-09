@@ -115,15 +115,16 @@ public class FollowerConstants {
     // When the robot is at the end of its current Path or PathChain and the translational error
     // goes below this value, then end the Path. This is in inches.
     // This can be custom set for each Path.
-    public static double pathEndTranslationalConstraint = 0.05;
+    public static double pathEndTranslationalConstraint = 0.01;
 
     // When the robot is at the end of its current Path or PathChain and the heading error goes
     // below this value, then end the Path. This is in radians.
     // This can be custom set for each Path.
-    public static double pathEndHeadingConstraint = 0.002;
+    public static double pathEndHeadingConstraint = 0.001;
 
     // When the t-value of the closest point to the robot on the Path is greater than this value,
     // then the Path is considered at its end.
+
     // This can be custom set for each Path.
     public static double pathEndTValueConstraint = 0.995;
 

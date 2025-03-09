@@ -87,7 +87,7 @@ public class FSMBot extends RollerIntakeBot{
 
     public static double specimenHighOuttakeRollTarget;
 
-    public static double sampleOuttakePitchTarget = 20;
+    public static double sampleOuttakePitchTarget = 10;
 
     public static double sampleOuttakeRollTarget = 0;
 
@@ -516,6 +516,7 @@ public class FSMBot extends RollerIntakeBot{
                 //reset slide, pivot motors, close claw
                 break;
             case DRIVE:
+                robot.intake(true);
                 isManualOverride = false;
                 robot.pitchTo(normalIntakePitchTarget);
                 robot.rollTo(normalIntakeRollTarget);

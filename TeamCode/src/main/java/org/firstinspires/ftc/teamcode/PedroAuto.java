@@ -50,16 +50,23 @@ public class PedroAuto extends LinearOpMode {
 
     private final Pose samplePickupPose1 = new Pose(26.9, 133.7479406919275, Math.toRadians(-43));
 
-    private final Pose samplePickupPose2 = new Pose(24.75, 112.70345963756178, Math.toRadians(55));
+    private final Pose samplePickupPose2 = new Pose(23.75, 112.70345963756178, Math.toRadians(55));
 
-    private final Pose samplePickupPose3 = new Pose(23.5, 120.667215815486, Math.toRadians(55));
+    private final Pose samplePickupPose3 = new Pose(20.5, 120.667215815486, Math.toRadians(55));
 //    private final Pose sample3 = new Pose(35, 6,0);
 
 //    private final Pose dropSamplePose = new Pose(28, 136, Math.toRadians(180));
 
     private final Pose loadSpecimenPose = new Pose(7.9, 23.6, 0);
 
-    private final Pose scoreSamplePose = new Pose(12.5, 124.7, Math.toRadians(-45));
+    private final Pose scoreSamplePose = new Pose(12.5, 125.7, Math.toRadians(-45));
+
+    private final Pose scoreSamplePose1 = new Pose(11.5, 126.7, Math.toRadians(-45));
+
+    private final Pose scoreSamplePose2 = new Pose(10.5, 127.7, Math.toRadians(-45));
+
+    private final Pose scoreSamplePose3 = new Pose(9.5, 127.7, Math.toRadians(-45));
+
 
     private final Pose sampleCurveControlPoint = new Pose(21.8, 36.7, Math.toRadians(-36));
 
@@ -109,16 +116,16 @@ public class PedroAuto extends LinearOpMode {
         park.setLinearHeadingInterpolation(scoreSamplePose.getHeading(), parkPose.getHeading());
 
         scoreSample1 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(samplePickupPose1), new Point(scoreSamplePose)))
-                .setLinearHeadingInterpolation(samplePickupPose1.getHeading(), scoreSamplePose.getHeading()).setPathEndHeadingConstraint(0.001).setPathEndTranslationalConstraint(0.025)
+                .addPath(new BezierLine(new Point(samplePickupPose1), new Point(scoreSamplePose1)))
+                .setLinearHeadingInterpolation(samplePickupPose1.getHeading(), scoreSamplePose1.getHeading()).setPathEndHeadingConstraint(0.001).setPathEndTranslationalConstraint(0.025)
                 .build();
         scoreSample2 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(samplePickupPose2), new Point(scoreSamplePose)))
-                .setLinearHeadingInterpolation(samplePickupPose2.getHeading(), scoreSamplePose.getHeading()).setPathEndHeadingConstraint(0.001).setPathEndTranslationalConstraint(0.025)
+                .addPath(new BezierLine(new Point(samplePickupPose2), new Point(scoreSamplePose3)))
+                .setLinearHeadingInterpolation(samplePickupPose2.getHeading(), scoreSamplePose3.getHeading()).setPathEndHeadingConstraint(0.001).setPathEndTranslationalConstraint(0.025)
                 .build();
         scoreSample3 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(samplePickupPose3), new Point(scoreSamplePose)))
-                .setLinearHeadingInterpolation(samplePickupPose3.getHeading(), scoreSamplePose.getHeading()).setPathEndHeadingConstraint(0.001).setPathEndTranslationalConstraint(0.025)
+                .addPath(new BezierLine(new Point(samplePickupPose3), new Point(scoreSamplePose3)))
+                .setLinearHeadingInterpolation(samplePickupPose3.getHeading(), scoreSamplePose2.getHeading()).setPathEndHeadingConstraint(0.001).setPathEndTranslationalConstraint(0.025)
                 .build();
     }
 
@@ -184,6 +191,7 @@ public class PedroAuto extends LinearOpMode {
     public void autonomousPathUpdate()  {
         switch (pathState) {
             case 0:
+                follower.setMaxPower(0.8);
                 follower.followPath(scorePreload); /**not path chain, may be error */
                 telemetry.addData("Current state", "State 0, Score Preload Pose");
 //                    robot.sleep(100);
