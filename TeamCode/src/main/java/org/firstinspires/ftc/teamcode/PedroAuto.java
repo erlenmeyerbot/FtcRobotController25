@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.sample.Sample;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "Pedro Auto Samples", group = "Auto")
+@Autonomous(name = "Pedro +Auto Samples", group = "Auto")
 public class PedroAuto extends LinearOpMode {
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
@@ -123,7 +123,21 @@ public class PedroAuto extends LinearOpMode {
     }
 
     protected AutonBot robot = new AutonBot(this);
-//    private PoseUpdater poseUpdater = new PoseUpdater(hardwareMap);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //    private PoseUpdater poseUpdater = new PoseUpdater(hardwareMap);
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
