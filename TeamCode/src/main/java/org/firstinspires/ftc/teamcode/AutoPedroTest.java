@@ -26,7 +26,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "Pedro test", group = "Auto")
+//@Autonomous(name = "Pedrotest", group = "Auto")
 
 public class AutoPedroTest extends LinearOpMode {
     private Follower follower;
