@@ -25,6 +25,8 @@ import org.firstinspires.ftc.teamcode.pedroPathing.util.Timer;
 import org.firstinspires.ftc.teamcode.sample.Sample;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.hardware.lynx.LynxModule;
+
 
 @Autonomous(name = "Pedro +Auto Samples", group = "Auto")
 public class PedroAuto extends LinearOpMode {
