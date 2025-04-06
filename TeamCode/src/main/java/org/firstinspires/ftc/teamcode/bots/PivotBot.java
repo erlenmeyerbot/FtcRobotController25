@@ -10,15 +10,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import java.util.List;
 
 @Config
 public class PivotBot extends OdometryBot { //change back to odometry bot later
@@ -77,7 +68,6 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
     @Override
     public void init(HardwareMap ahwMap) {
         super.init(ahwMap);
-
         pivotMotor1 = hwMap.get(DcMotorEx.class, "pivot1");
         pivotMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
         pivotMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -105,13 +95,6 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
         slideMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideMotor2.setPower(0);
-
-        List<LynxModule> allHubs = hwMap.getAll(LynxModule.class);
-
-        for (LynxModule module : allHubs) {
-            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
-        }
-
 
 
         // TODO
