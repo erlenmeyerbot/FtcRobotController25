@@ -40,9 +40,12 @@ public class AutonomousTest extends LinearOpMode {
 ////            robot.updateTelemetry();
 ////            robot.subIntake(true);
 //        }
-    robot.driveToCoordinate(300,0,0,20,1,true);
-    robot.driveToCoordinate(300,300,0,20,1, true);
-    robot.driveToCoordinate(0, 300, 0, 20, 1, true);
-    robot.driveToCoordinate(0, 0, 0,20, 1, true);
+    robot.driveToCoordinate(3000,0,0,200,1,true);
+    robot.waitForCoordinateDrive();
+    robot.driveToCoordinate(3000,3000,0,200,1, true);
+    robot.waitForCoordinateDrive();
+    robot.driveToCoordinate(0, 3000, 0, 200, 1, true);
+    robot.waitForCoordinateDrive();
+    robot.driveToCoordinate(0, 0, 0,200, 1, true);
 //        robot.scoreBucket(true);
     }}
