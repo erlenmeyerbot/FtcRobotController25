@@ -160,7 +160,6 @@ public class TeleOps extends LinearOpMode {
             }
             telemetry.addData("state:",robot.currentState);
             telemetry.addData("slide pos" ,robot.getSlidePosition());
-            telemetry.addData("pivot pos" ,robot.getPivotPosition());
             telemetry.addData("pivot Target" ,robot.pivotTarget);
             telemetry.addData("Current roll", robot.getCurrentPitch());
             telemetry.addData("Current pitch", robot.getCurrentRoll());

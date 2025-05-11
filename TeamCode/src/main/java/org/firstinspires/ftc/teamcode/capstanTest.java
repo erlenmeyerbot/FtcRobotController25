@@ -24,29 +24,28 @@ public class capstanTest extends LinearOpMode {
         boolean isRunning = true;
 
         while (opModeIsActive()) {
-            if (gamepad1.x) {
-                isRunning = false;
+            if(gamepad1.dpad_up){
+                robot.up();
+            }
+            if(gamepad1.dpad_down){
+                robot.down();
+            }
+            if(gamepad1.a){
                 robot.stopMotor();
             }
 
-            while (isRunning && opModeIsActive()) {
-                robot.up();
-                if (gamepad1.x) {
-                    isRunning = false;
-                    robot.stopMotor();
-                    break;
-                }
-                sleep(500); // Pause between movements
+            /*if (robot.getCapstanPosition() < robot.newTarget + 25 || robot.getCapstanPosition() > robot.newTarget - 25){
 
-                robot.down();
-                if (gamepad1.x) {
-                    isRunning = false;
-                    robot.stopMotor();
-                    break;
-                }
-                sleep(500); // Pause between movements
-            }
+                robot.stopMotor();
+
+            }*/
+
+            telemetry.addData("capstan pos" ,robot.getCapstanPosition());
+            telemetry.addData("target pos" , robot.newTarget);
+            telemetry.update();
         }
+
+
         robot.close();
     }
 }
