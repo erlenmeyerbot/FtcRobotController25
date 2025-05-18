@@ -123,6 +123,9 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
     public int getPivotPosition() {
         return pivotMotor1.getCurrentPosition();
     }
+    public int getPivotTarget() {
+        return pivotTarget;
+    }
 
     public float getSlideMotor1Power(){
         return (float) slideMotor1.getPower();
@@ -135,6 +138,7 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
     protected void onTick() {
         super.onTick();
         pivotController.setTolerance(5,10);
+
         pivotController.setSetPoint(pivotTarget);
         //elseF
             if (pivotMotor1.getCurrentPosition() > -2050) {
@@ -333,6 +337,7 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
             pivotMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             pivotMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);}
 
+
 //        pivotController.setTolerance(10,20);
 //
 //        pivotController.setSetPoint(pivotTarget);
@@ -425,4 +430,16 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
 //            pivotTarget = 100;
 //        }
 //    }
+public void pivotToUpPos(boolean input) {
+    if (input) {
+        pivotTarget = 500;
+        pivotRunToPosition(pivotTarget);
+    }
+}
+public void pivotToDownPos(boolean input) {
+    if (input) {
+        pivotTarget = 0;
+        pivotRunToPosition(pivotTarget);
+    }
+}
 }
