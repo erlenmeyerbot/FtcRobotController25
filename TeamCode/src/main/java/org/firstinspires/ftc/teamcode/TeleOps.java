@@ -117,13 +117,11 @@ public class TeleOps extends LinearOpMode {
                 robot.resetAngle(true);
             }
 
+            robot.pivotControl(gamepad2.dpad_up, gamepad2.dpad_down);
 
 
-            if(gamepad2.dpad_up){
-                robot.pitch(1);
-            }
-            if(gamepad2.dpad_down){
-                robot.pitch(-1);
+
+
  telemetry.addData("Current roll", robot.getCurrentPitch());
             telemetry.addData("Current pitch", robot.getCurrentRoll());            }
 
