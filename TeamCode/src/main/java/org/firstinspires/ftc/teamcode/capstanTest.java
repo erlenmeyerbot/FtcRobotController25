@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import android.graphics.Paint;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.bots.CapstanBot;
 import org.firstinspires.ftc.teamcode.bots.FSMBot;
-import org.firstinspires.ftc.teamcode.bots.PivotBot;
 import org.firstinspires.ftc.teamcode.sample.Sample;
 
 @TeleOp(name = "Capstan")
@@ -27,23 +24,29 @@ public class capstanTest extends LinearOpMode {
         boolean isRunning = true;
 
         while (opModeIsActive()) {
-           robot.pivotToUpPos(gamepad1.dpad_up);
-           robot.pivotToDownPos(gamepad1.dpad_down);
-           robot.movePivot(gamepad1.left_bumper,gamepad1.right_bumper);
-
-            /*if (robot.getCapstanPosition() < robot.newTarget + 25 || robot.getCapstanPosition() > robot.newTarget - 25){
-
+            if (gamepad1.x) {
+                isRunning = false;
                 robot.stopMotor();
+            }
 
-            }*/
+            while (isRunning && opModeIsActive()) {
+                robot.up();
+                if (gamepad1.x) {
+                    isRunning = false;
+                    robot.stopMotor();
+                    break;
+                }
+                sleep(500); // Pause between movements
 
-            telemetry.addData("capstan pos" ,robot.getCapstanPosition());
-//            telemetry.addData("target pos" , robot.getPivotTarget());
-            telemetry.update();
+                robot.down();
+                if (gamepad1.x) {
+                    isRunning = false;
+                    robot.stopMotor();
+                    break;
+                }
+                sleep(500); // Pause between movements
+            }
         }
-
-        robot.onLoop(0, "manual drive");
-
         robot.close();
     }
 }

@@ -76,7 +76,7 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
         pivotMotor1.setPower(0);
 
         pivotMotor2 = hwMap.get(DcMotorEx.class, "pivot2");
-        pivotMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
+        pivotMotor2.setDirection(DcMotorSimple.Direction.REVERSE);
         pivotMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pivotMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pivotMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -106,9 +106,6 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
     public int getPivotPosition() {
         return pivotMotor1.getCurrentPosition();
     }
-    public int getPivotTarget() {
-        return pivotTarget;
-    }
 
     public float getSlideMotor1Power(){
         return (float) slideMotor1.getPower();
@@ -121,7 +118,6 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
     protected void onTick() {
         super.onTick();
         pivotController.setTolerance(5,10);
-
         pivotController.setSetPoint(pivotTarget);
         //elseF
             if (pivotMotor1.getCurrentPosition() > -2050) {
@@ -283,15 +279,6 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
         pivotTarget = targetPos;
     }
 
-    public void moveSlide(boolean up, boolean down){
-        if(up){
-            slideTarget=slideTarget+2;
-        }
-        if(down){
-            slideTarget=slideTarget-2;
-        }
-    }
-
     public void slideRunToPosition(int targetPos){
         slideTarget = targetPos;
     }
@@ -328,7 +315,6 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
             pivotMotor2.setPower(0);
             pivotMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             pivotMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);}
-
 
 //        pivotController.setTolerance(10,20);
 //
@@ -422,16 +408,4 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
 //            pivotTarget = 100;
 //        }
 //    }
-public void pivotToUpPos(boolean input) {
-    if (input) {
-        pivotTarget = 500;
-        pivotRunToPosition(pivotTarget);
-    }
-}
-public void pivotToDownPos(boolean input) {
-    if (input) {
-        pivotTarget = 0;
-        pivotRunToPosition(pivotTarget);
-    }
-}
 }
