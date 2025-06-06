@@ -121,7 +121,7 @@ public class TeleOps extends LinearOpMode {
 
 
 
-
+            {
  telemetry.addData("Current roll", robot.getCurrentPitch());
             telemetry.addData("Current pitch", robot.getCurrentRoll());            }
 

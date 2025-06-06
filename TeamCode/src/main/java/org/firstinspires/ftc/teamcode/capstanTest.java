@@ -29,6 +29,7 @@ public class capstanTest extends LinearOpMode {
         while (opModeIsActive()) {
            robot.pivotToUpPos(gamepad1.dpad_up);
            robot.pivotToDownPos(gamepad1.dpad_down);
+           robot.movePivot(gamepad1.left_bumper,gamepad1.right_bumper);
 
             /*if (robot.getCapstanPosition() < robot.newTarget + 25 || robot.getCapstanPosition() > robot.newTarget - 25){
 

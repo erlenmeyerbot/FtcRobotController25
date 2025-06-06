@@ -11,6 +11,8 @@ public class CapstanBot extends BotBot{
     public DcMotorEx pivotMotor1 = null;
     public DcMotorEx pivotMotor2 = null;
 
+    public int pivotTarget=0;
+
     public static final double NEW_P = 10;
     public static final double NEW_I = 0;
     public static final double NEW_D = 0;
@@ -91,7 +93,7 @@ public class CapstanBot extends BotBot{
     }
     public void pivotToUpPos(boolean input) {
         if (input) {
-            int pivotTarget = 500;
+            pivotTarget = 1000;
             pivotMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             pivotMotor1.setTargetPosition(pivotTarget);
             pivotMotor1.setPower(1);
@@ -99,10 +101,24 @@ public class CapstanBot extends BotBot{
     }
     public void pivotToDownPos(boolean input) {
         if (input) {
-            int pivotTarget = 500;
-            pivotMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            pivotMotor2.setTargetPosition(pivotTarget);
-            pivotMotor2.setPower(1);
+            pivotTarget = 500;
+            pivotMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            pivotMotor1.setTargetPosition(pivotTarget);
+            pivotMotor1.setPower(1);
         }
     }
-}
+    public void movePivot(boolean up, boolean down){
+        if (up){
+            pivotTarget = pivotTarget+2;
+            pivotMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            pivotMotor1.setTargetPosition(pivotTarget);
+            pivotMotor1.setPower(1);
+
+        }
+        if (down){
+            pivotTarget = pivotTarget-2;
+            pivotMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            pivotMotor1.setTargetPosition(pivotTarget);
+            pivotMotor1.setPower(1);
+    }
+}}

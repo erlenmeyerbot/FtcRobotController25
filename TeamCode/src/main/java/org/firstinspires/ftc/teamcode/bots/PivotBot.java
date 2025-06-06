@@ -300,6 +300,15 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
         pivotTarget = targetPos;
     }
 
+    public void moveSlide(boolean up, boolean down){
+        if(up){
+            slideTarget=slideTarget+2;
+        }
+        if(down){
+            slideTarget=slideTarget-2;
+        }
+    }
+
     public void slideRunToPosition(int targetPos){
         slideTarget = targetPos;
     }
