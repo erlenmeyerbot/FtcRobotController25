@@ -86,7 +86,7 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
         pivotMotor1.setPower(0);
 
         pivotMotor2 = hwMap.get(DcMotorEx.class, "pivot2");
-        pivotMotor2.setDirection(DcMotorSimple.Direction.REVERSE);
+        pivotMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
         pivotMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pivotMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pivotMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -123,6 +123,9 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
     public int getPivotPosition() {
         return pivotMotor1.getCurrentPosition();
     }
+    public int getPivotTarget() {
+        return pivotTarget;
+    }
 
     public float getSlideMotor1Power(){
         return (float) slideMotor1.getPower();
@@ -135,31 +138,32 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
     protected void onTick() {
         super.onTick();
         pivotController.setTolerance(5,10);
+
         pivotController.setSetPoint(pivotTarget);
         //elseF
-            if (pivotMotor1.getCurrentPosition() > -2050) {
-                kfAngled = (float) (kf * Math.cos(Math.toRadians(ticksToDegree * pivotMotor1.getCurrentPosition())));
-            } else{ kfAngled = 0;}
-            if(pivotMotor1.getCurrentPosition() > 1 && pivotTarget == 0){
-                pivotMotor1.setPower(0);
-                pivotMotor2.setPower(0);
-                pivotMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                pivotMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            }
-            else if(pivotMotor1.getCurrentPosition() < -2050 && pivotTarget <-2000){
-                pivotMotor1.setPower(-0.0004);
-                pivotMotor2.setPower(-0.0004);
-            }
-            else if(!pivotController.atSetPoint()) {
-                pivotController.setPIDF(kp, ki, kd, 0);
-                double output = pivotController.calculate(pivotMotor1.getCurrentPosition());
-                pivotMotor2.setVelocity((output + kfAngled)*0.5);
-                pivotMotor1.setVelocity((output + kfAngled)*0.5);
-                telemetry.addData("output velocity", output);
-                packet.put("position", pivotMotor1.getCurrentPosition());
-                packet.put("target position", pivotTarget);
-                dashboard.sendTelemetryPacket(packet);
-            }
+        if (pivotMotor1.getCurrentPosition() > -2050) {
+            kfAngled = (float) (kf * Math.cos(Math.toRadians(ticksToDegree * pivotMotor1.getCurrentPosition())));
+        } else{ kfAngled = 0;}
+        if(pivotMotor1.getCurrentPosition() > 1 && pivotTarget == 0){
+            pivotMotor1.setPower(0);
+            pivotMotor2.setPower(0);
+            pivotMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            pivotMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        }
+        else if(pivotMotor1.getCurrentPosition() < -2050 && pivotTarget <-2000){
+            pivotMotor1.setPower(-0.0004);
+            pivotMotor2.setPower(-0.0004);
+        }
+        else if(!pivotController.atSetPoint()) {
+            pivotController.setPIDF(kp, ki, kd, 0);
+            double output = pivotController.calculate(pivotMotor1.getCurrentPosition());
+            pivotMotor2.setVelocity((output + kfAngled)*0.5);
+            pivotMotor1.setVelocity((output + kfAngled)*0.5);
+            telemetry.addData("output velocity", output);
+            packet.put("position", pivotMotor1.getCurrentPosition());
+            packet.put("target position", pivotTarget);
+            dashboard.sendTelemetryPacket(packet);
+        }
         else {
             pivotMotor1.setPower(0);
             pivotMotor2.setPower(0);
@@ -229,7 +233,7 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
         }
 
     }
-//    public void slideByDelta(int delta){
+    //    public void slideByDelta(int delta){
 //        slideTarget += delta;
 //    }
     public void slideControl(boolean up, boolean down) {
@@ -296,6 +300,15 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
         pivotTarget = targetPos;
     }
 
+    public void moveSlide(boolean up, boolean down){
+        if(up){
+            slideTarget=slideTarget+2;
+        }
+        if(down){
+            slideTarget=slideTarget-2;
+        }
+    }
+
     public void slideRunToPosition(int targetPos){
         slideTarget = targetPos;
     }
@@ -320,10 +333,10 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
             pivotController.setPIDF(kp, ki, kd, 0);
             pivotController.setSetPoint(pivotTarget);
 
-                double output = pivotController.calculate(pivotMotor1.getCurrentPosition());
-                pivotMotor2.setVelocity(output + kfAngled);
-                pivotMotor1.setVelocity(output + kfAngled);
-                telemetry.addData("output velocity", output);
+            double output = pivotController.calculate(pivotMotor1.getCurrentPosition());
+            pivotMotor2.setVelocity(output + kfAngled);
+            pivotMotor1.setVelocity(output + kfAngled);
+            telemetry.addData("output velocity", output);
             packet.put("position",pivotMotor1.getCurrentPosition());
             dashboard.sendTelemetryPacket(packet);
 
@@ -332,6 +345,7 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
             pivotMotor2.setPower(0);
             pivotMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             pivotMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);}
+
 
 //        pivotController.setTolerance(10,20);
 //
@@ -365,7 +379,7 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
 //            }
 //
 //        }
-       }
+    }
 //    public void runPivotMotors(int pT, double power){
 //        pivotMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //        pivotMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -410,7 +424,7 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
 //
 //    }
 
-//    public void climbControl(boolean input) {
+    //    public void climbControl(boolean input) {
 //
 //        int state = 0;
 //        int extended = 1;
@@ -425,4 +439,16 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
 //            pivotTarget = 100;
 //        }
 //    }
+    public void pivotToUpPos(boolean input) {
+        if (input) {
+            pivotTarget = 500;
+            pivotRunToPosition(pivotTarget);
+        }
+    }
+    public void pivotToDownPos(boolean input) {
+        if (input) {
+            pivotTarget = 0;
+            pivotRunToPosition(pivotTarget);
+        }
+    }
 }

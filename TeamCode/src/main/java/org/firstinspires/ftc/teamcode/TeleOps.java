@@ -117,15 +117,13 @@ public class TeleOps extends LinearOpMode {
                 robot.resetAngle(true);
             }
 
+            robot.pivotControl(gamepad2.dpad_up, gamepad2.dpad_down);
 
 
-            if(gamepad2.dpad_up){
-                robot.pitch(1);
-            }
-            if(gamepad2.dpad_down){
-                robot.pitch(-1);
- telemetry.addData("Current roll", robot.getCurrentPitch());
-            telemetry.addData("Current pitch", robot.getCurrentRoll());            }
+
+            {
+                telemetry.addData("Current roll", robot.getCurrentPitch());
+                telemetry.addData("Current pitch", robot.getCurrentRoll());            }
 
             if(gamepad2.dpad_right){
                 robot.roll(1);
@@ -160,7 +158,6 @@ public class TeleOps extends LinearOpMode {
             }
             telemetry.addData("state:",robot.currentState);
             telemetry.addData("slide pos" ,robot.getSlidePosition());
-            telemetry.addData("pivot pos" ,robot.getPivotPosition());
             telemetry.addData("pivot Target" ,robot.pivotTarget);
             telemetry.addData("Current roll", robot.getCurrentPitch());
             telemetry.addData("Current pitch", robot.getCurrentRoll());
