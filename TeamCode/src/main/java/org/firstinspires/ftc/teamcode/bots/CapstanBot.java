@@ -13,8 +13,8 @@ public class CapstanBot extends BotBot{
 
     public int pivotTarget=0;
 
-    public static final double NEW_P = 10;
-    public static final double NEW_I = 0;
+    public static final double NEW_P = 5;
+    public static final double NEW_I = 0.5;
     public static final double NEW_D = 0;
 
     private static final int TICKS_PER_REVOLUTION = 50; // 751
@@ -50,7 +50,7 @@ public class CapstanBot extends BotBot{
 
         // change coefficients using methods included with DcMotorEx class.
         PIDCoefficients pidNew = new PIDCoefficients(NEW_P, NEW_I, NEW_D);
-        pivotMotor1.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        pivotMotor1.setPIDCoefficients(DcMotor.RunMode.RUN_TO_POSITION, new PIDCoefficients(NEW_P, NEW_I, NEW_D));
     }
 
     public void up() {
@@ -76,8 +76,6 @@ public class CapstanBot extends BotBot{
 
         pivotMotor1.setTargetPosition(newTarget);
         pivotMotor1.setPower(power);
-
-
 
     }
 
