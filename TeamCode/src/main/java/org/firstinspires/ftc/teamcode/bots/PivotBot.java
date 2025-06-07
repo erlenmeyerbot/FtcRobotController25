@@ -28,19 +28,22 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
     FtcDashboard dashboard = FtcDashboard.getInstance();
 
     public double slidePower = 0.8;
-
+    // sample side
     public static int samplePivotDropOffPos = -2050; // was 2150, seems to be going too far
 
     public static int sampleSlideDropOffPos = 690;// WAS 770, MADE LOWER TO AVOID CLAW GETTING CAUGHT ON BUCKET
-
+    //specimen side
     public static int specimenSlideDropOffPos = 400;// to be tested
 
+    public static int specimenPivotDropOffPos = -1400;// to be tested
+
+    public static int specimenPivotPickupPos = -400; //to be tested
     public final float ticksToDegree = 360/8192; // 8192 ticks per rotation
     public float kfAngled;
-    public static double kp = 3.6;
-    public static double ki = 0;
-    public static double kd = 0.43;
-    public static double kf = -0.72;
+    public static double kp = 3.9;
+    public static double ki = 0.026;
+    public static double kd = 0.208;
+    public static double kf = -0.56;
 
     PIDFController pivotController = new PIDFController(kp,ki,kd,kf);
 
@@ -93,14 +96,14 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
         pivotMotor2.setPower(0);
 
         slideMotor1 = hwMap.get(DcMotorEx.class, "slide1");
-        slideMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
+        slideMotor1.setDirection(DcMotorSimple.Direction.FORWARD);
         slideMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideMotor1.setPower(0);
 
         slideMotor2 = hwMap.get(DcMotorEx.class, "slide2");
-        slideMotor2.setDirection(DcMotorSimple.Direction.REVERSE);
+        slideMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
         slideMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

@@ -102,6 +102,14 @@ public class TeleOps extends LinearOpMode {
             if(gamepad2.b){
                 robot.currentState = FSMBot.gameState.SPECIMEN_SCORING_HIGH_DRIVE;
             }
+            if(gamepad2.a && robot.currentState != FSMBot.gameState.SPECIMEN_SCORING_HIGH_MANUAL1){
+                robot.currentState = FSMBot.gameState.SPECIMEN_SCORING_HIGH_MANUAL1;
+            }
+            if(gamepad2.a && robot.currentState != FSMBot.gameState.SPECIMEN_SCORING_HIGH_MANUAL1){
+                robot.currentState = FSMBot.gameState.SPECIMEN_SCORING_HIGH_MANUAL2;
+            }
+
+
             if(gamepad1.left_stick_button){
                 robot.currentState = FSMBot.gameState.PRE_DRIVE;
             }
