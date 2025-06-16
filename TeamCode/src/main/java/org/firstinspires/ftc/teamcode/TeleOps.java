@@ -113,6 +113,12 @@ public class TeleOps extends LinearOpMode {
             if(gamepad1.left_stick_button){
                 robot.currentState = FSMBot.gameState.PRE_DRIVE;
             }
+            if(robot.currentState == FSMBot.gameState.SUBMERSIBLE_INTAKE_3) {
+                robot.groundIntakeRollTarget += gamepad1.right_trigger*5;
+                robot.groundIntakeRollTarget -= gamepad1.left_trigger*5;
+
+            }
+
 //            robot.intake(gamepad1.a);
             if(robot.currentState == FSMBot.gameState.SUBMERSIBLE_INTAKE_3 || robot.currentState == FSMBot.gameState.DRIVE) {
                 robot.outake(gamepad1.x);
@@ -124,8 +130,6 @@ public class TeleOps extends LinearOpMode {
             if(gamepad1.y){
                 robot.resetAngle(true);
             }
-
-            robot.pivotControl(gamepad2.dpad_up, gamepad2.dpad_down);
 
 
 

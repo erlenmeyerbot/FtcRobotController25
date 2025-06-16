@@ -74,12 +74,12 @@ public class FSMBot extends RollerIntakeBot{
 
     public int intakeSlideMinimum = 180;
 
-    public double normalIntakePitchTarget = -20;
+    public double normalIntakePitchTarget = 0;
 
     public double normalIntakeRollTarget = 0;
 
-    public static double groundIntakePitchTarget = -55;
-    public static double groundIntakeRollTarget = 0;
+    public static double groundIntakePitchTarget = 55;
+    public static double groundIntakeRollTarget = 30;
 
     public static double wallIntakePitchTarget;
     public static double wallIntakeRollTarget;
@@ -152,6 +152,7 @@ public class FSMBot extends RollerIntakeBot{
                 break;
             case SUBMERSIBLE_INTAKE_2:
                 robot.pitchTo(groundIntakePitchTarget);
+                groundIntakeRollTarget = 0;
                 robot.rollTo(groundIntakeRollTarget);
                 robot.intake(true);
 //                robot.slideControl(gamepad1.dpad_right, gamepad1.dpad_left);
@@ -160,6 +161,8 @@ public class FSMBot extends RollerIntakeBot{
                 currentState = gameState.SUBMERSIBLE_INTAKE_3;
 
             case SUBMERSIBLE_INTAKE_3:
+                robot.pitchTo(groundIntakePitchTarget);
+                robot.rollTo(groundIntakeRollTarget);
                 robot.slideRunToPosition(slideTarget);
 //                currentState = gameState.ARM_DOWN;
                 break;
