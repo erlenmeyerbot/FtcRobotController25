@@ -86,7 +86,7 @@ public class FSMBot extends RollerIntakeBot{
 
     public static double specimenHighOuttakeRollTarget;
 
-    public static double sampleOuttakePitchTarget = 10;
+    public static double sampleOuttakePitchTarget = 0;
 
     public static double sampleOuttakeRollTarget = 0;
 
@@ -264,7 +264,7 @@ public class FSMBot extends RollerIntakeBot{
 
                 robot.slideRunToPosition(sampleSlideDropOffPos);
                 robot.outake(true);
-                if(outtakeTimer.milliseconds() > 600) {
+                if(outtakeTimer.milliseconds() > 900) {
                     currentState = gameState.ARM_DOWN;
                 }
                 //outtake
