@@ -7,12 +7,12 @@ public class LConstants {
     static {
         ThreeWheelConstants.forwardTicksToInches = .001989436789;
         ThreeWheelConstants.strafeTicksToInches = .001989436789;
-        ThreeWheelConstants.turnTicksToInches = 0.0023;
-        ThreeWheelConstants.leftY = 5.4;
-        ThreeWheelConstants.rightY = -5.4;
-        ThreeWheelConstants.strafeX = -3;
-        ThreeWheelConstants.leftEncoder_HardwareMapName = "leftFront";
-        ThreeWheelConstants.rightEncoder_HardwareMapName = "leftRear";
+        ThreeWheelConstants.turnTicksToInches = 0.002;
+        ThreeWheelConstants.leftY = -5.75;
+        ThreeWheelConstants.rightY = 3.7;
+        ThreeWheelConstants.strafeX = 0;
+        ThreeWheelConstants.leftEncoder_HardwareMapName = "leftRear";
+        ThreeWheelConstants.rightEncoder_HardwareMapName = "leftFront";
         ThreeWheelConstants.strafeEncoder_HardwareMapName = "rightRear";
         ThreeWheelConstants.leftEncoderDirection = Encoder.FORWARD;
         ThreeWheelConstants.rightEncoderDirection = Encoder.FORWARD;
