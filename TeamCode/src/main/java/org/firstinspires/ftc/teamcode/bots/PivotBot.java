@@ -31,7 +31,7 @@ public class PivotBot extends OdometryBot { //change back to odometry bot later
     // sample side
     public static int samplePivotDropOffPos = -2050; // was 2150, seems to be going too far
 
-    public static int sampleSlideDropOffPos = 1350;// WAS 770, MADE LOWER TO AVOID CLAW GETTING CAUGHT ON BUCKET
+    public static int sampleSlideDropOffPos = 1250;// WAS 770, MADE LOWER TO AVOID CLAW GETTING CAUGHT ON BUCKET
     //specimen side
     public static int specimenSlideDropOffPos = 400;// to be tested
 

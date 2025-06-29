@@ -79,14 +79,14 @@ public class FSMBot extends RollerIntakeBot{
     public double normalIntakeRollTarget = 0;
 
     public static double groundIntakePitchTarget = 55;
-    public static double groundIntakeRollTarget = 30;
+    public static double groundIntakeRollTarget = 25;
 
     public static double wallIntakePitchTarget;
     public static double wallIntakeRollTarget;
 
     public static double specimenHighOuttakeRollTarget;
 
-    public static double sampleOuttakePitchTarget = 0;
+    public static double sampleOuttakePitchTarget = -30;
 
     public static double sampleOuttakeRollTarget = 0;
 
@@ -137,8 +137,8 @@ public class FSMBot extends RollerIntakeBot{
         telemetry.update();
         switch (currentState) {
             case INIT_READY:
-                pitchTo(0); //sets differential wrist positions
-                rollTo(0);
+                pitchTo(-55); //sets differential wrist positions
+                rollTo(32);
                 currentState = gameState.PRE_DRIVE;
                 break;
             case SUBMERSIBLE_INTAKE_1:
@@ -161,6 +161,7 @@ public class FSMBot extends RollerIntakeBot{
                 currentState = gameState.SUBMERSIBLE_INTAKE_3;
 
             case SUBMERSIBLE_INTAKE_3:
+                robot.pivotRunToPosition(0);
                 robot.pitchTo(groundIntakePitchTarget);
                 robot.rollTo(groundIntakeRollTarget);
                 robot.slideRunToPosition(slideTarget);
@@ -244,7 +245,7 @@ public class FSMBot extends RollerIntakeBot{
                     robot.pivotRunToPosition(samplePivotDropOffPos);
                     robot.slideRunToPosition(sampleSlideDropOffPos);
                 }
-                if(robot.getSlidePosition() > sampleSlideDropOffPos-50) {
+                if(robot.getSlidePosition() > sampleSlideDropOffPos-150) {
                     robot.pitchTo(sampleOuttakePitchTarget);
                     robot.rollTo(sampleOuttakeRollTarget);
                 }
@@ -261,9 +262,10 @@ public class FSMBot extends RollerIntakeBot{
 //                }
                     robot.pitchTo(sampleOuttakePitchTarget);
                     robot.rollTo(sampleOuttakeRollTarget);
-
                 robot.slideRunToPosition(sampleSlideDropOffPos);
-                robot.outake(true);
+                if(outtakeTimer.milliseconds() >300) {
+                    robot.outake(true);
+                }
                 if(outtakeTimer.milliseconds() > 900) {
                     currentState = gameState.ARM_DOWN;
                 }

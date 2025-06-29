@@ -329,13 +329,13 @@ public class OdometryBot extends GyroBot {
         }
     }
     public void updateTelemetry(){
-        telemetry.addData("X:", xBlue);
-        telemetry.addData("Y:", yBlue);
-        telemetry.addData("Theta:", thetaDEG);
-        telemetry.addData("vL", leftFront.getCurrentPosition());
-        telemetry.addData("vR", rightFront.getCurrentPosition());
-        telemetry.addData("h", rightRear.getCurrentPosition());
-        telemetry.update();
+//        telemetry.addData("X:", xBlue);
+//        telemetry.addData("Y:", yBlue);
+//        telemetry.addData("Theta:", thetaDEG);
+//        telemetry.addData("vL", leftFront.getCurrentPosition());
+//        telemetry.addData("vR", rightFront.getCurrentPosition());
+//        telemetry.addData("h", rightRear.getCurrentPosition());
+//        telemetry.update();
     }
 
 //    public void savePosition() {

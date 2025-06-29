@@ -20,23 +20,23 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 @Autonomous(name = "Pedro +Auto Samples", group = "Auto")
 public class PedroAutoNew extends LinearOpMode{
     protected FSMBot robot = new FSMBot(this);
+    boolean flag = true;
     private int pathState;
-
     private Timer pathTimer;
     private Follower follower;
 
     private final Pose startPose = new Pose(8.5, 112, Math.toRadians(0));  // Starting position
-    private final Pose scorePose = new Pose(18, 127, Math.toRadians(-45)); // Scoring position
+    private final Pose scorePose = new Pose(17, 125, Math.toRadians(-45)); // Scoring position
 
-    private final Pose pickup1Pose = new Pose(30, 130, Math.toRadians(0)); // First sample pickup
+    private final Pose pickup1Pose = new Pose(30, 126, Math.toRadians(0)); // First sample pickup
 
-    private final Pose slidePickup1Pose = new Pose(30, 127, Math.toRadians(0)); // Slide to sample pickup
+    private final Pose slidePickup1Pose = new Pose(30, 120, Math.toRadians(0)); // Slide to sample pickup
 
-    private final Pose pickup2Pose = new Pose(30,130,Math.toRadians(0));
+    private final Pose pickup2Pose = new Pose(30,126,Math.toRadians(0));
 
-    private final Pose slidePickup2Pose = new Pose(30,134, Math.toRadians(0));
+    private final Pose slidePickup2Pose = new Pose(30,132, Math.toRadians(0));
 
-    private final Pose pickup3Pose = new Pose(36,130,Math.toRadians(45));
+    private final Pose pickup3Pose = new Pose(34,130,Math.toRadians(45));
 
 
 
@@ -88,87 +88,147 @@ public class PedroAutoNew extends LinearOpMode{
         switch (pathState) {
             case 0: // Move from start to scoring position
                 follower.setMaxPower(0.7);
-                follower.followPath(scorePreload);
+                follower.followPath(scorePreload,true);
                 setPathState(1);
                 break;
             case 1:
                 if(!follower.isBusy()){
-                    robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_2;
-                    if(robot.getSlidePosition() > 900){
-                        robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_3;
-                    }
-                    if(robot.currentState == FSMBot.gameState.ARM_DOWN) {
-                        follower.followPath(moveToPickup1);
-                        setPathState(2);
+                    if(robot.getPivotPosition() < - 1600) {
+                        if (robot.getSlidePosition() > 1100 && flag) {
+                            robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_3;
+                            flag = false;
+                        } else if (flag) {
+                            robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_2;
+                        }
+                        if (robot.currentState == FSMBot.gameState.ARM_DOWN) {
+                            follower.followPath(moveToPickup1, true);
+                            flag = true;
+                            setPathState(2);
+                        }
+                    } else{
+                        robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_1;
                     }
                 }
+                break;
             case 2:
                 if(!follower.isBusy()){
-                    robot.currentState = FSMBot.gameState.SUBMERSIBLE_INTAKE_3;
-                    robot.pitchTo(55);
-                    follower.followPath(pickup1);
-                    setPathState(3);
+                    if(robot.getPivotPosition() > -35) {
+                        robot.currentState = FSMBot.gameState.SUBMERSIBLE_INTAKE_2;
+                        robot.slideRunToPosition(400);
+                        robot.groundIntakeRollTarget = -32;
+                        follower.followPath(pickup1, true);
+                        setPathState(3);
+                    }
                 }
+                break;
             case 3:
+                robot.slideRunToPosition(400);
+                robot.groundIntakeRollTarget = -32;
                 if(!follower.isBusy()){
-                    follower.followPath(scoreSample1);
+                    robot.groundIntakeRollTarget = 0;
+                    follower.followPath(scoreSample1,true);
                     setPathState(4);
                 }
+                break;
             case 4:
                 if(!follower.isBusy()){
-                    robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_2;
-                    if(robot.getSlidePosition() > 900){
-                        robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_3;
-                    }
-                    if(robot.currentState == FSMBot.gameState.ARM_DOWN) {
-                        follower.followPath(moveToPickup2);
-                        setPathState(5);
+                    if(robot.getPivotPosition() < - 1600) {
+                        if (robot.getSlidePosition() > 1100 && flag) {
+                            robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_3;
+                            flag = false;
+                        } else if (flag) {
+                            robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_2;
+                        }
+                        if (robot.currentState == FSMBot.gameState.ARM_DOWN) {
+                            follower.followPath(moveToPickup2,true);
+                            flag = true;
+                            setPathState(5);
+                        }
+                    } else{
+                        robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_1;
+                        robot.slideRunToPosition(0);
+
                     }
 
+
                 }
+                break;
             case 5:
                 if(!follower.isBusy()){
-                    robot.currentState = FSMBot.gameState.SUBMERSIBLE_INTAKE_3;
-                    robot.pitchTo(55);
-                    follower.followPath(pickup2);
-                    setPathState(6);
+                    if(robot.getPivotPosition() > -35) {
+                        robot.currentState = FSMBot.gameState.SUBMERSIBLE_INTAKE_2;
+                        robot.slideRunToPosition(400);
+                        robot.groundIntakeRollTarget = 32;
+                        follower.followPath(pickup2, true);
+                        setPathState(6);
+                    }
                 }
+                break;
             case 6:
+                robot.groundIntakeRollTarget = 32;
+                robot.slideRunToPosition(400);
                 if(!follower.isBusy()){
-                    robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_2;
-                    if(robot.getSlidePosition() > 900){
-                        robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_3;
-                    }
-                    if(robot.currentState == FSMBot.gameState.ARM_DOWN) {
-                        follower.followPath(scoreSample2);
-                        setPathState(7);
-                    }
+                    robot.groundIntakeRollTarget = 0;
+                    follower.followPath(scoreSample2,true);
+                    flag = true;
+                    setPathState(7);
                 }
+                break;
             case 7:
                 if(!follower.isBusy()){
-                    follower.followPath(pickup3);
-                    setPathState(8);
+                    if(!follower.isBusy()){
+                        if(robot.getPivotPosition() < - 1600) {
+                            if (robot.getSlidePosition() > 1100 && flag) {
+                                robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_3;
+                                flag = false;
+                            } else if (flag) {
+                                robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_2;
+                            }
+                            if (robot.currentState == FSMBot.gameState.ARM_DOWN) {
+                                follower.followPath(pickup3,true);
+                                flag = true;
+                                setPathState(8);
+                            }
+                        } else{
+                            robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_1;
+                            robot.slideRunToPosition(0);
+                        }
+                    }
                 }
+                break;
             case 8:
                 if(!follower.isBusy()){
-                    robot.currentState = FSMBot.gameState.SUBMERSIBLE_INTAKE_3;
-                    robot.pitchTo(-27.5);
-                    robot.slideRunToPosition(300);
-                    if(robot.getSlidePosition() > 250) {
-                        follower.followPath(scoreSample3);
+                    if(robot.getPivotPosition() > -35){
+                        robot.currentState = FSMBot.gameState.SUBMERSIBLE_INTAKE_3;
+                        robot.intake(true);
+                        robot.groundIntakeRollTarget = 10;
+                        robot.slideRunToPosition(550);
+                    if(robot.getSlidePosition() > 500) {
+                        follower.followPath(scoreSample3,true);
+                        robot.groundIntakeRollTarget = 0;
+                        robot.slideRunToPosition(0);
                         setPathState(9);
                     }
+                    }
                 }
+                break;
             case 9:
-                if(!follower.isBusy()) {
-                    robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_2;
-                    if (robot.getSlidePosition() > 900) {
+                if(robot.getPivotPosition() < - 1600) {
+                    if (robot.getSlidePosition() > 1100 && flag) {
                         robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_3;
+                        flag = false;
+                    } else if (flag) {
+                        robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_2;
                     }
                     if (robot.currentState == FSMBot.gameState.ARM_DOWN) {
+                        flag = true;
                         setPathState(-1);
                     }
+                } else{
+                    robot.currentState = FSMBot.gameState.SAMPLE_SCORING_HIGH_1;
+                    robot.slideRunToPosition(0);
                 }
+                break;
         }
     }
 
@@ -193,6 +253,10 @@ public class PedroAutoNew extends LinearOpMode{
         waitForStart();
         while (opModeIsActive()&&initTimer.milliseconds()>100) {
             robot.updateStates();
+            telemetry.addData("slides position",robot.getSlidePosition());
+            telemetry.addData("robot state", robot.currentState);
+            telemetry.addData("path state",pathState);
+            telemetry.addData("outtaketimer", robot.outtakeTimer);
             telemetry.update();
             follower.update();
             autonomousPathUpdate();
