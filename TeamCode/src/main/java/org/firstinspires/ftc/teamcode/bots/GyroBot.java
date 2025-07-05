@@ -76,7 +76,7 @@ public class GyroBot extends FourWheelDriveBot {
             driveMultiplier = -1.0;
             telemetry.addData("FAST", driveMultiplier);
         } else {
-            driveMultiplier = -0.65;
+            driveMultiplier = -0.85;
             telemetry.addData("SLOW", driveMultiplier);
         }
 

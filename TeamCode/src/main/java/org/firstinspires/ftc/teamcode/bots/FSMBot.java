@@ -32,6 +32,7 @@ public class FSMBot extends RollerIntakeBot{
 
     public ElapsedTime submersibleTimer = new ElapsedTime();
 
+
     public boolean manualOverride = false;
 
 
@@ -64,6 +65,8 @@ public class FSMBot extends RollerIntakeBot{
         DRIVE,
         HANG_UP,
         HANG_DOWN,
+
+        OUTTAKE,
         DEFAULT;
 
 
@@ -72,7 +75,7 @@ public class FSMBot extends RollerIntakeBot{
     public boolean auto;
     public boolean intakeDown = false;
 
-    public int intakeSlideMinimum = 180;
+    public int intakeSlideMinimum = 240;
 
     public double normalIntakePitchTarget = 0;
 
@@ -137,20 +140,18 @@ public class FSMBot extends RollerIntakeBot{
         telemetry.update();
         switch (currentState) {
             case INIT_READY:
-                pitchTo(-55); //sets differential wrist positions
-                rollTo(32);
-                currentState = gameState.PRE_DRIVE;
+                pitchTo(-54); //sets differential wrist positions
+                rollTo(30); //to be within limits
                 break;
-            case SUBMERSIBLE_INTAKE_1:
+            case SUBMERSIBLE_INTAKE_1:// extend out slightly
                 robot.slideRunToPosition(intakeSlideMinimum);
                 robot.pivotRunToPosition(0);
-                //
-                if(subIntakeTimer.milliseconds() > 140){
+                if(subIntakeTimer.milliseconds() > 250){
                     currentState = gameState.SUBMERSIBLE_INTAKE_2;
                 }
                 subRetractTimer.reset();
                 break;
-            case SUBMERSIBLE_INTAKE_2:
+            case SUBMERSIBLE_INTAKE_2: //drop intake down
                 robot.pitchTo(groundIntakePitchTarget);
                 groundIntakeRollTarget = 0;
                 robot.rollTo(groundIntakeRollTarget);
@@ -160,14 +161,15 @@ public class FSMBot extends RollerIntakeBot{
                 robot.pivotRunToPosition(0);
                 currentState = gameState.SUBMERSIBLE_INTAKE_3;
 
-            case SUBMERSIBLE_INTAKE_3:
+            case SUBMERSIBLE_INTAKE_3: //start intaking
+                subIntakeTimer.reset();
                 robot.pivotRunToPosition(0);
                 robot.pitchTo(groundIntakePitchTarget);
                 robot.rollTo(groundIntakeRollTarget);
                 robot.slideRunToPosition(slideTarget);
 //                currentState = gameState.ARM_DOWN;
                 break;
-            case WALL_INTAKE_1:
+            case WALL_INTAKE_1: // moves arm up differential wrist
 //                robot.goToAngle(180,0.3);
                 //pivot up
                 robot.pitch(wallIntakePitchTarget);
@@ -306,14 +308,15 @@ public class FSMBot extends RollerIntakeBot{
                 robot.rollTo(normalIntakeRollTarget);
                 robot.pivotRunToPosition(0);
                 robot.slideRunToPosition(0);
-                robot.stopRoller();
                 currentState = gameState.DRIVE;
 //                subIntake(gamepad1.b);
 //                raisePivotSample(gamepad1.a);
                 //reset slide, pivot motors, close claw
                 break;
             case DRIVE:
+                groundIntakeRollTarget = 0;
                 isManualOverride = false;
+                robot.intake(true);
                 robot.pitchTo(normalIntakePitchTarget);
                 robot.rollTo(normalIntakeRollTarget);
                 robot.pivotRunToPosition(0);
@@ -329,6 +332,7 @@ public class FSMBot extends RollerIntakeBot{
                 robot.slideRunToPosition(770);
                 break;
             case ARM_DOWN:
+                robot.stopRoller(true);
                 robot.pitchTo(normalIntakePitchTarget);
                 robot.rollTo(normalIntakeRollTarget);
                 robot.slideRunToPosition(0);
@@ -342,6 +346,12 @@ public class FSMBot extends RollerIntakeBot{
                     currentState = gameState.PRE_DRIVE;
                 }
                 break;
+            case OUTTAKE:
+                robot.outake(true);
+                if(outtakeTimer.milliseconds()>500){
+                   currentState = gameState.DRIVE;
+                }
+
         }
     }
     protected void onTick() {
@@ -360,6 +370,7 @@ public class FSMBot extends RollerIntakeBot{
     public void retractSubIntake (boolean button){
         if(button) {
             intakeDown = false;
+            robot.hold(true);
             currentState = gameState.PRE_DRIVE;
         }
     }

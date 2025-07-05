@@ -28,8 +28,8 @@ public class DifferentialWristBot extends PivotBot {
         rightDifferentialWristServo = ahwMap.get(Servo.class, "rightDifferentialWristServo");
 
         // Initialize position
-        pitchTo(0);
-        rollTo(0);
+        pitchTo(-55);
+        rollTo(24);
     }
 
     protected void onTick() {

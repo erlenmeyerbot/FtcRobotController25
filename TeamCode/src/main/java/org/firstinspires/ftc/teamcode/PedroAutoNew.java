@@ -28,15 +28,15 @@ public class PedroAutoNew extends LinearOpMode{
     private final Pose startPose = new Pose(8.5, 112, Math.toRadians(0));  // Starting position
     private final Pose scorePose = new Pose(17, 125, Math.toRadians(-45)); // Scoring position
 
-    private final Pose pickup1Pose = new Pose(30, 126, Math.toRadians(0)); // First sample pickup
+    private final Pose pickup1Pose = new Pose(29, 126, Math.toRadians(0)); // First sample pickup
 
-    private final Pose slidePickup1Pose = new Pose(30, 120, Math.toRadians(0)); // Slide to sample pickup
+    private final Pose slidePickup1Pose = new Pose(29, 120, Math.toRadians(0)); // Slide to sample pickup
 
-    private final Pose pickup2Pose = new Pose(30,126,Math.toRadians(0));
+    private final Pose pickup2Pose = new Pose(29.5,126,Math.toRadians(0));
 
-    private final Pose slidePickup2Pose = new Pose(30,132, Math.toRadians(0));
+    private final Pose slidePickup2Pose = new Pose(29.5,  132, Math.toRadians(0));
 
-    private final Pose pickup3Pose = new Pose(34,130,Math.toRadians(45));
+    private final Pose pickup3Pose = new Pose(31.5,130,Math.toRadians(45));
 
 
 
@@ -112,7 +112,7 @@ public class PedroAutoNew extends LinearOpMode{
                 break;
             case 2:
                 if(!follower.isBusy()){
-                    if(robot.getPivotPosition() > -35) {
+                    if(robot.getPivotPosition() > -45) {
                         robot.currentState = FSMBot.gameState.SUBMERSIBLE_INTAKE_2;
                         robot.slideRunToPosition(400);
                         robot.groundIntakeRollTarget = -32;
@@ -155,7 +155,8 @@ public class PedroAutoNew extends LinearOpMode{
                 break;
             case 5:
                 if(!follower.isBusy()){
-                    if(robot.getPivotPosition() > -35) {
+                    robot.intake(true);
+                    if(robot.getPivotPosition() > -45) {
                         robot.currentState = FSMBot.gameState.SUBMERSIBLE_INTAKE_2;
                         robot.slideRunToPosition(400);
                         robot.groundIntakeRollTarget = 32;
@@ -198,9 +199,10 @@ public class PedroAutoNew extends LinearOpMode{
                 break;
             case 8:
                 if(!follower.isBusy()){
-                    if(robot.getPivotPosition() > -35){
-                        robot.currentState = FSMBot.gameState.SUBMERSIBLE_INTAKE_3;
-                        robot.intake(true);
+                    robot.intake(true);
+                    if(robot.getPivotPosition() > -45){
+                        robot.currentState = FSMBot.gameState.SUBMERSIBLE_INTAKE_2;
+                        robot.slideRunToPosition(80);
                         robot.groundIntakeRollTarget = 10;
                         robot.slideRunToPosition(550);
                     if(robot.getSlidePosition() > 500) {

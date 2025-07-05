@@ -27,6 +27,7 @@ public class RollerIntakeBot extends DifferentialWristBot {
     final int ROLLER_MODE_OFF = 0;
     final int ROLLER_MODE_INTAKE = 1;
     final int ROLLER_MODE_OUTAKE = -1;
+    final float ROLLER_MODE_HOLD = (float) -0.4;
     final int NOTHING = 0;
     final int YELLOW = 1;
     final int BLUE = 2;
@@ -82,7 +83,7 @@ public class RollerIntakeBot extends DifferentialWristBot {
         if (rollerMode == ROLLER_MODE_INTAKE) {
             telemetry.addData("Current obj", obj);
             if (obj != NOTHING) {
-                stopRoller();
+                stopRoller(true);
                 triggerEvent(EVENT_SAMPLE_ROLLED_IN, obj);
                 sampleIntaked = true;
             }
@@ -90,7 +91,7 @@ public class RollerIntakeBot extends DifferentialWristBot {
         } else if (rollerMode == ROLLER_MODE_OUTAKE) {
 //            int obj = getObjectInPlace();
             if (obj == NOTHING) {
-                stopRoller();
+                stopRoller(true);
                 triggerEvent(EVENT_SAMPLE_ROLLED_OUT, obj);
                 sampleIntaked = false;
             }
@@ -148,15 +149,21 @@ public class RollerIntakeBot extends DifferentialWristBot {
         }
     }
 
-    public void stopRoller() {
-        rollerMode = ROLLER_MODE_OFF;
+    public void hold(boolean input){
+        if(input){
+            setRollerPower(-0.4);
+        }
+    }
 
-        // Gradually reduce power before stopping
 
-        setRollerPower(1);   // Briefly reverse
-        opMode.sleep(50);
+    public void stopRoller(boolean input) {
+        if(input) {
+            rollerMode = ROLLER_MODE_OFF;
 
-        setRollerPower(0);     // Fully stop
+            // Gradually reduce power before stopping
+
+            setRollerPower(0);     // Fully stop
+        }
     }
 
     public void setColorIndicator(double pos) {
